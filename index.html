@@ -25,17 +25,24 @@
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
         
-        // Use sendEvent for requesting fullscreen
-        window.Telegram.WebApp.sendEvent('web_app_request_fullscreen');
-        
+        // Request fullscreen using the correct event system
+        window.Telegram.WebApp.MainButton.onClick(() => {
+          window.Telegram.WebApp.postEvent('web_app_request_fullscreen', {});
+        });
+
         // Listen for fullscreen response events
-        window.Telegram.WebApp.onEvent('fullscreen_changed', function(isFullscreen) {
-          console.log('Fullscreen mode changed:', isFullscreen);
+        window.Telegram.WebApp.onEvent('fullscreen_changed', function(event) {
+          console.log('Fullscreen mode changed:', event.is_fullscreen);
         });
         
-        window.Telegram.WebApp.onEvent('fullscreen_failed', function(error) {
-          console.log('Fullscreen request failed:', error);
+        window.Telegram.WebApp.onEvent('fullscreen_failed', function(event) {
+          console.log('Fullscreen request failed:', event.error);
         });
+        
+        // Add function to exit fullscreen if needed
+        function exitFullscreen() {
+          window.Telegram.WebApp.postEvent('web_app_exit_fullscreen', {});
+        }
         
         // Detailed logging of Telegram WebApp data
         console.log("Telegram WebApp initialized from index.html");
