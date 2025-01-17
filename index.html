@@ -24,6 +24,18 @@
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
       
+      // Request fullscreen mode using postEvent
+      window.Telegram.WebApp.postEvent('web_app_request_fullscreen');
+      
+      // Listen for fullscreen response events
+      window.Telegram.WebApp.onEvent('fullscreen_changed', function(isFullscreen) {
+        console.log('Fullscreen mode changed:', isFullscreen);
+      });
+      
+      window.Telegram.WebApp.onEvent('fullscreen_failed', function(error) {
+        console.log('Fullscreen request failed:', error);
+      });
+      
       // Detailed logging of Telegram WebApp data
       console.log("Telegram WebApp initialized from index.html");
       
@@ -110,4 +122,4 @@
       document.body.appendChild(script);
     </script>
   </body>
-</html> 
+</html>
