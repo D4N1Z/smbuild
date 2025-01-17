@@ -25,10 +25,8 @@
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
         
-        // Request fullscreen using the correct event system
-        window.Telegram.WebApp.MainButton.onClick(() => {
-          window.Telegram.WebApp.postEvent('web_app_request_fullscreen', {});
-        });
+        // Request fullscreen immediately
+        window.Telegram.WebApp.postEvent('web_app_request_fullscreen', {});
 
         // Listen for fullscreen response events
         window.Telegram.WebApp.onEvent('fullscreen_changed', function(event) {
