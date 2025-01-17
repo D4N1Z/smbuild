@@ -20,40 +20,44 @@
       <div id="unity-warning"> </div>
     </div>
     <script>
-      // Initialize Telegram WebApp
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-      
-      // Request fullscreen mode using postEvent
-      window.Telegram.WebApp.postEvent('web_app_request_fullscreen');
-      
-      // Listen for fullscreen response events
-      window.Telegram.WebApp.onEvent('fullscreen_changed', function(isFullscreen) {
-        console.log('Fullscreen mode changed:', isFullscreen);
-      });
-      
-      window.Telegram.WebApp.onEvent('fullscreen_failed', function(error) {
-        console.log('Fullscreen request failed:', error);
-      });
-      
-      // Detailed logging of Telegram WebApp data
-      console.log("Telegram WebApp initialized from index.html");
-      
-      var user = window.Telegram.WebApp.initDataUnsafe.user;
-      if (user) {
-        console.log("User Details:");
-        console.log("- ID:", user.id);
-        console.log("- First Name:", user.first_name);
-        console.log("- Last Name:", user.last_name || "Not provided");
-        console.log("- Username:", user.username || "Not provided");
-        console.log("- Language Code:", user.language_code);
-        console.log("- Is Premium:", user.is_premium ? "Yes" : "No");
+      // Initialize Telegram WebApp and wait for it to be ready
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        
+        // Use the correct event method
+        window.Telegram.WebApp.MainButton.postEvent('web_app_request_fullscreen');
+        
+        // Listen for fullscreen response events
+        window.Telegram.WebApp.onEvent('fullscreen_changed', function(isFullscreen) {
+          console.log('Fullscreen mode changed:', isFullscreen);
+        });
+        
+        window.Telegram.WebApp.onEvent('fullscreen_failed', function(error) {
+          console.log('Fullscreen request failed:', error);
+        });
+        
+        // Detailed logging of Telegram WebApp data
+        console.log("Telegram WebApp initialized from index.html");
+        
+        var user = window.Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+          console.log("User Details:");
+          console.log("- ID:", user.id);
+          console.log("- First Name:", user.first_name);
+          console.log("- Last Name:", user.last_name || "Not provided");
+          console.log("- Username:", user.username || "Not provided");
+          console.log("- Language Code:", user.language_code);
+          console.log("- Is Premium:", user.is_premium ? "Yes" : "No");
+        } else {
+          console.log("User data not available");
+        }
+        
+        console.log("Full InitData:", window.Telegram.WebApp.initData);
+        console.log("Full InitDataUnsafe:", window.Telegram.WebApp.initDataUnsafe);
       } else {
-        console.log("User data not available");
+        console.log("Telegram WebApp is not available");
       }
-      
-      console.log("Full InitData:", window.Telegram.WebApp.initData);
-      console.log("Full InitDataUnsafe:", window.Telegram.WebApp.initDataUnsafe);
       
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
