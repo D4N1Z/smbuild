@@ -25,12 +25,17 @@
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
         
-        // Request fullscreen using WebView.postEvent
-        try {
-          WebView.postEvent('web_app_request_fullscreen');
-          console.log("Fullscreen request sent");
-        } catch (error) {
-          console.error("Error requesting fullscreen:", error);
+        // Check if it's a mobile device
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          // Request fullscreen only on mobile
+          try {
+            WebView.postEvent('web_app_request_fullscreen');
+            console.log("Fullscreen request sent (mobile device)");
+          } catch (error) {
+            console.error("Error requesting fullscreen:", error);
+          }
+        } else {
+          console.log("Skipping fullscreen request for desktop platform");
         }
 
         // Event listeners
